@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+</head>
+<body>
+<h2 id="mac-os-x-10.6-and-10.5">Mac OS X 10.6 and 10.5</h2>
+<p><em>You will need internet access if you want to follow examples in this chapter.</em></p>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/mac/desktop.png" alt="Mac OS X 10.6 default desktop" /><br /> <em>Mac OS X 10.6 default desktop</em></p>
+<p>Machine is a clean installation of Mac OS X 10.6.8 or 10.5.8, fully patched, with 4 GB RAM. 10.6 has Safari 5.1 and 10.5 has Safari 5.0.6. Firefox is 6.0.1, Chrome 13, Opera 11.51. All browsers are English (US) version.</p>
+<h3 id="ruby">Ruby</h3>
+<p>Regarding installing Ruby on Mac, I have good news and bad news. Good news is that Ruby is already installed by default, so you can skip this step if you just want to try Watir. Bad news is that you have an old version of Ruby installed. It will be good enough for trying Watir, but if you decide you want to use it, you will probably want to install a newer version. So, for now, I will skip Ruby installation. I will cover it later.</p>
+<p>To check if Ruby is installed on your Mac, open Terminal application (located in <code>/Applications/Utilities</code>) any type <code>ruby -v</code>.</p>
+<p>On 10.6 you should get this:</p>
+<pre><code>$ ruby -v
+ruby 1.8.7 (2009-06-12 patchlevel 174) [universal-darwin10.0]
+</code></pre>
+<p>Ruby 1.8.7 patchlevel 174 (released June 12, 2009). That is actually not so bad.</p>
+<p>On 10.5 you should get this:</p>
+<pre><code>$ ruby -v
+ruby 1.8.6 (2009-06-08 patchlevel 369) [universal-darwin9.0]
+</code></pre>
+<p>Ruby 1.8.6 is pretty old, as the date says (2009). Does not matter at the moment, you can install newer version of Ruby later.</p>
+<h3 id="rubygems-on-10.6">RubyGems on 10.6</h3>
+<p>With RubyGems, the same story as with Ruby. It is already installed, but an old version. Let's see which version is here with <code>gem -v</code>:</p>
+<pre><code>$ gem -v
+1.3.5
+</code></pre>
+<p>1.3.5 is pretty old. Watir needs never version. Fortunately, it is easy to upgrade RubyGems with <code>sudo gem update --system</code>:</p>
+<pre><code>$ sudo gem update --system
+(...)
+RubyGems 1.8.10 installed
+(...)
+</code></pre>
+<h3 id="rubygems-on-10.5">RubyGems on 10.5</h3>
+<p>With RubyGems, the same story as with Ruby. It is already installed, but an old version. Let's see which version is here with <code>gem -v</code>:</p>
+<pre><code>$ gem -v
+1.0.1
+</code></pre>
+<p>RubyGems 1.0.1 is pretty old. Watir needs never version. Fortunately, it should be easy to upgrade RubyGems with <code>sudo gem update --system</code>:</p>
+<pre><code>$ sudo gem update --system
+(...)
+Updating RubyGems...
+ERROR:  While executing gem ... (Gem::RemoteSourceException)
+HTTP Response 302 fetching http://gems.rubyforge.org/yaml
+</code></pre>
+<p>Now you see why I said &quot;should be easy&quot;. RubyGems 1.0.1 is so old, it could not even be updated the easy way. See how lucky you are to have this book? Of course there is a way to upgrade to the newer version of RubyGems. The latest version I could install or Ruby 1.8.6 is RubyGems 1.4.2. Download <a href="https://rubygems.org/gems/rubygems-update/versions/1.4.2">rubygems-update-1.4.2.gem</a> (click <em>Download</em> link), open Terminal window in folder where you have downloaded it (<code>/Users/zeljko/Downloads</code> in my case) and install it:</p>
+<pre><code>$ sudo gem install -l rubygems-update-1.4.2.gem
+Successfully installed rubygems-update-1.4.2
+1 gem installed
+Installing ri documentation for rubygems-update-1.4.2...
+Installing RDoc documentation for rubygems-update-1.4.2...
+
+$ sudo update_rubygems
+RubyGems 1.4.2 installed
+File not found: README
+</code></pre>
+<p>Ignore <code>File not found: README</code> error message. Check if RubyGems is updated:</p>
+<pre><code>$ gem -v
+1.4.2
+</code></pre>
+<p>Everything is as it should be.</p>
+<h3 id="xcode-3.2-for-10.6">Xcode 3.2 for 10.6</h3>
+<p><em>Xcode 3.2 does not work on Mac OS 10.5. It works on 10.6.</em></p>
+<p>You will need Xcode from Apple if you want to install watir-webdriver or safariwatir gems.</p>
+<p>The easiest way to install Xcode is from Mac OS DVD. Insert the DVD, go to <em>Optional Installs</em> folder and double click <em>Xcode.mpkg</em> file.</p>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/mac/xcode-3-2.png" alt="Install Xcode 3.2 from Mac OS DVD" /><br /> <em>Install Xcode 3.2 from Mac OS DVD</em></p>
+<p>You can get a newer version from Apple web site. You will need Apple ID. It is username and password you already use for iTunes Store or Mac App Store. If you do not have Apple ID, you can create one for free. Sign in with your Apple ID at <a href="http://developer.apple.com/xcode/">Xcode</a> site and on the bottom right you will see <em>Looking for Xcode 3? Download Now</em>. Download <em>Xcode 3.2.6 and iOS SDK 4.3 (Disk Image)</em>. Please notice it is 4.1 GB.</p>
+<p>You can get the newest Xcode 3.2 without Apple ID and without downloading 4 GB file. Install Xcode 3.2 from Mac OS DVD and run Software Update. It will update Xcode to 3.2.6, and downloaded file will be &quot;just&quot; about 600 MB.</p>
+<h3 id="xcode-3.1-for-10.5">Xcode 3.1 for 10.5</h3>
+<p><em>Xcode 3.1 is for Mac OS 10.5. On 10.6 install Xcode 3.2 or Xcode 4.</em></p>
+<p>You will need Xcode from Apple for watir-webdriver and safariwatir gems.</p>
+<p>The easiest way to install Xcode is from Mac OS DVD. Insert the DVD, go to <em>Optional Installs/Xcode Tools</em> folder and double click <em>XcodeTools</em> file. Leave all settings at default values.</p>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/mac/xcode-3-1.png" alt="Install Xcode 3.1.2 from Mac OS DVD" /><br /> <em>Install Xcode 3.1.2 from Mac OS DVD</em></p>
+<p>Optionally, after Xcode is installed, run Software Update. At the moment, there is no update.</p>
+<p>If you do not have Mac OS 10.5 DVD, you can download Xcode 3.1.4 from Apple. Log in to http://connect.apple.com/ with your Apple ID. Click <em>Developer Tools</em> link (at the right hand side, under <em>Downloads</em>) and download <em>Xcode 3.1.4 Developer DVD (Disk Image)</em>. Please note it is 993 MB.</p>
+<h3 id="xcode-4-for-10.6">Xcode 4 for 10.6</h3>
+<p><em>Xcode 4 does not work on Mac OS 10.5. It works on 10.6.</em></p>
+<p>According to Xcode site, Xcode 4 &quot;is a free download for all members of the iOS and Mac Developer Programs&quot;. Both programs are $99/year. If you are not a member of mentioned programs (I am not), you can buy it from Mac App Store for $4.99. But, since you can install Xcode 3 for free, there is no need to buy anything.</p>
+<h3 id="safari-with-safariwatir">Safari with safariwatir</h3>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/mac/safari.png" alt="Safari 5.1 on Mac 10.6" /><br /> <em>Safari 5.1 on Mac 10.6</em></p>
+<p>Safari is installed by default on Mac OS X, so you do not have to install it. You do have to install Xcode 3 or 4 (see previous chapters).</p>
+<p>If you do not have Xcode installed, you will get this error message if you try to install safariwatir:</p>
+<pre><code>$ sudo gem install safariwatir --no-ri --no-rdoc
+(...)
+Fetching: rb-appscript-0.6.1.gem (100%)
+Building native extensions.  This could take a while...
+ERROR:  Error installing safariwatir:
+ERROR: Failed to build gem native extension.
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/
+ruby extconf.rb
+mkmf.rb can't find header files for ruby at /System/Library/
+Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/ruby.h
+Gem files will remain installed in /Library/Ruby/Gems/1.8/gems/
+rb-appscript-0.6.1 for inspection.
+Results logged to /Library/Ruby/Gems/1.8/gems/rb-appscript-0.6.1/
+./gem_make.out
+</code></pre>
+<p>Install Xcode 3 or 4 and try again:</p>
+<pre><code>$ sudo gem install safariwatir --no-ri --no-rdoc
+(...)
+Successfully installed safariwatir-0.4.0
+(...)
+</code></pre>
+<p>Let's try safariwatir.</p>
+<pre><code>$ irb
+
+&gt; require &quot;safariwatir&quot;
+=&gt; true
+
+&gt; browser = Watir::Safari.new
+=&gt; #&lt;Watir::Safari:0x10116fc68
+  @scripter=#&lt;Watir::AppleScripter:0x10116fbf0
+  @js=#&lt;Watir::JavaScripter:0x10116fc18&gt;, @typing_lag=0.08,
+  @app=app(&quot;/Applications/Safari.app&quot;),
+  @document=app(&quot;/Applications/Safari.app&quot;).documents[1],
+  @appname=&quot;Safari&quot;&gt;&gt;
+
+&gt; browser.goto &quot;http://watir.com&quot;
+=&gt; nil
+</code></pre>
+<p>It works! :)</p>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/mac/safariwatir.png" alt="safariwatir gem driving Safari 5 on Mac OS 10.6" /><br /> <em>safariwatir gem driving Safari 5 on Mac OS 10.6</em></p>
+<h3 id="watir-webdriver">watir-webdriver</h3>
+<p>Let's try watir-webdriver gem. For now it can drive Firefox, Chrome and Opera. It should also be able to drive Safari in the future. Install it with <code>sudo gem install watir-webdriver --no-ri --no-rdoc</code>.</p>
+<p>If you did not install Xcode, you will get this:</p>
+<pre><code>$ sudo gem install watir-webdriver --no-ri --no-rdoc
+(...)
+Fetching: ffi-1.0.7.gem (100%)
+(...)
+Building native extensions.  This could take a while...
+ERROR:  Error installing watir-webdriver:
+ERROR: Failed to build gem native extension.
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby
+  extconf.rb
+mkmf.rb can't find header files for ruby at
+  /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/ruby.h
+Gem files will remain installed in
+  /Library/Ruby/Gems/1.8/gems/ffi-1.0.7 for inspection.
+Results logged to
+  /Library/Ruby/Gems/1.8/gems/ffi-1.0.7/ext/ffi_c/gem_make.out
+</code></pre>
+<p>Fortunately, it is easy to fix. Install Xcode 3 or 4 (see previous chapters).</p>
+<p>Try again:</p>
+<pre><code>$ sudo gem install watir-webdriver --no-ri --no-rdoc
+(...)
+Successfully installed watir-webdriver-0.3.2
+(...)
+</code></pre>
+<h3 id="firefox-with-watir-webdriver-on-10.6">Firefox with watir-webdriver on 10.6</h3>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/mac/firefox.png" alt="Firefox 6 on Mac OS 10.6" /><br /> <em>Firefox 6 on Mac OS 10.6</em></p>
+<p>Let's try to drive Firefox! To drive <a href="http://www.mozilla.com/en-US/firefox/new/">Firefox</a>, make sure you have it installed. Open our old friend IRB and type this:</p>
+<pre><code>$ irb
+
+&gt; require &quot;watir-webdriver&quot;
+=&gt; true
+
+&gt; browser = Watir::Browser.new :ff
+=&gt; #&lt;Watir::Browser:0x10101ee40 url=&quot;about:blank&quot; title=&quot;&quot;&gt;
+
+&gt; browser.goto &quot;watir.com&quot;
+=&gt; &quot;http://watir.com/&quot;
+</code></pre>
+<p>Great! We can drive Firefox.</p>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/mac/webdriver-firefox.png" alt="watir-webdriver driving Firefox 4 on Mac OS 10.6" /><br /> <em>watir-webdriver driving Firefox 4 on Mac OS 10.6</em></p>
+<h3 id="firefox-with-watir-webdriver-on-10.5">Firefox with watir-webdriver on 10.5</h3>
+<p>There is a problem with driving Firefox 4+ on 10.5:</p>
+<pre><code>$ irb
+
+&gt; require &quot;watir-webdriver&quot;
+=&gt; true
+
+&gt; browser = Watir::Browser.new :ff
+Selenium::WebDriver::Error::WebDriverError: unable to start Firefox cleanly, args: [&quot;-silent&quot;]
+(...)
+</code></pre>
+<p>Take a look at https://github.com/jnicklas/capybara/issues/313 for more detail.</p>
+<p>The easiest way to fix it is to uninstall the current version of Firefox, and install Firefox 3.6.22. I could not find how to download Firefox 4 or 5, so I did not test with them.</p>
+<h3 id="chrome-with-watir-webdriver">Chrome with watir-webdriver</h3>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/mac/chrome.png" alt="Chrome 13 on Mac OS 10.6" /><br /> <em>Chrome 13 on Mac OS 10.6</em></p>
+<p>Let's see if it can really drive Chrome too. To drive <a href="http://www.google.com/chrome/">Chrome</a>, make sure you have it installed.</p>
+<pre><code>$ irb
+
+&gt; require &quot;watir-webdriver&quot;
+=&gt; true
+
+&gt; browser = Watir::Browser.new :chrome
+Selenium::WebDriver::Error::WebDriverError: Unable to find the
+chromedriver executable. Please download the server from
+http://code.google.com/p/chromium/downloads/list and place it
+somewhere on your PATH. More info at
+http://code.google.com/p/selenium/wiki/ChromeDriver.
+</code></pre>
+<p>Looks like we have to install something called <em>chromedriver executable</em>. Fortunately, the error message is pretty clear. Download <code>chromedriver_mac_14.0.836.0.zip</code> (or newer version, the description should be <em>ChromeDriver server for Mac OS X</em>) from <em>http://code.google.com/p/chromium/downloads/list</em> and unzip it (with mouse double-click, for example). You will get a file named <code>chromedriver</code>. Put it <em>somewhere on your <code>PATH</code></em>, as the error message said. If you have no idea what that means, read on. To find out where to put <code>chromedriver</code> file, type this in Terminal:</p>
+<pre><code>$ echo $PATH
+/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin
+</code></pre>
+<p>So, in my case, these folders are on my <code>PATH</code>: <code>/usr/bin</code>, <code>/bin</code>, <code>/usr/sbin</code>, <code>/sbin</code>, <code>/usr/local/bin</code> and <code>/usr/X11/bin</code>. <code>usr/bin</code> looks like a good place to put <code>chromedriver</code> file. To open the folder, go to <em>Finder &gt; Go &gt; Go to Folder &gt; /usr/bin &gt; Go</em>. Copy the file there. You will have to provide admin password.</p>
+<p>Let's try again:</p>
+<pre><code>$ irb
+
+&gt; require &quot;watir-webdriver&quot;
+=&gt; true
+
+&gt; browser = Watir::Browser.new :chrome
+=&gt; #&lt;Watir::Browser:0x12d610c url=&quot;about:blank&quot; title=&quot;about:blank&quot;&gt;
+
+&gt; browser.goto &quot;watir.com&quot;
+=&gt; &quot;http://watir.com/&quot;
+</code></pre>
+<p>Finally! It works!</p>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/mac/webdriver-chrome.png" alt="watir-webdriver driving Chrome 12 on Mac OS 10.5" /><br /> <em>watir-webdriver driving Chrome 12 on Mac OS 10.5</em></p>
+<h3 id="java">Java</h3>
+<p>To drive Opera, you need Java. Fortunatelly, it is already installed. All you have to do is check if it is installed with <code>java -version</code>:</p>
+<p>On 10.6 you should get this:</p>
+<pre><code>$ java -version
+java version &quot;1.6.0_26&quot;
+Java(TM) SE Runtime Environment (build 1.6.0_26-b03-384-10M3425)
+Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02-384, mixed mode)
+</code></pre>
+<p>On 10.5 you should get this:</p>
+<pre><code>java version &quot;1.5.0_30&quot;
+Java(TM) 2 Runtime Environment, Standard Edition (build 1.5.0_30-b03-389-9M3425)
+Java HotSpot(TM) Client VM (build 1.5.0_30-161, mixed mode)
+</code></pre>
+<h3 id="opera-with-watir-webdriver">Opera with watir-webdriver</h3>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/mac/opera.png" alt="Opera 11.51 on Mac 10.6" /><br /> <em>Opera 11.51 on Mac 10.6</em></p>
+<p>Let's see how it drives Opera. To drive <a href="http://www.opera.com/">Opera</a>, make sure you have it installed.</p>
+<pre><code>$ irb
+
+&gt; require &quot;watir-webdriver&quot;
+=&gt; true
+
+&gt; browser = Watir::Browser.new :opera
+Selenium::WebDriver::Error::WebDriverError: Unable to find the
+Selenium server jar. Please download the standalone server from
+http://code.google.com/p/selenium/downloads/list and set the
+SELENIUM_SERVER_JAR environmental variable to its location.
+More info at http://code.google.com/p/selenium/wiki/OperaDriver.
+</code></pre>
+<p>Error message similar to the one when we first tried to open Chrome. The solution is similar too. We have to download a file, put it somewhere and point a variable to it. Do not worry, it sounds more complicated than it really is. Fortunately again, the error message says it all. Go to <em>http://code.google.com/p/selenium/downloads/list</em> and download <code>selenium-server-standalone-2.5.0.jar</code> (or newer version). Since I have put <code>chromedriver</code> file in <code>/usr/bin</code>, I will put <code>selenium-server-standalone-2.5.0.jar</code> file there too. You will have to provide admin password when copying the file.</p>
+<p>The last step is setting <code>SELENIUM_SERVER_JAR</code> environmental variable. Create (if the file does not exist) or edit <code>.bash_profile</code> file in your home folder (<code>/Users/zeljko</code> in my case) with your favorite text editor. Add this line to the file:</p>
+<pre><code> export SELENIUM_SERVER_JAR=/usr/bin/selenium-server-standalone-2.5.0.jar
+</code></pre>
+<p>If you just got lost, I have step by step guide how to do it. Open new Terminal tab or window (it should open in your home folder by default, <code>/Users/zeljko</code> in my case) and type <code>nano .bash_profile</code>:</p>
+<pre><code>$ nano .bash_profile
+</code></pre>
+<p><em>GNU nano</em> text editor will open. Paste (cmd-v, for example) <code>export SELENIUM_SERVER_JAR...</code> line. Exit <em>GNU nano</em> and save the file with <em>control+x</em>. Press <em>y</em> when it asks <code>Save modified buffer (ANSWERING &quot;No&quot; WILL DESTROY CHANGES)?</code> and press <em>Enter</em> when it displays <code>File Name to Write: .bash_profile</code> or <code>Save modified buffer (ANSWERING &quot;No&quot; WILL DESTROY CHANGES)?</code> (text is different if the file already exists or not).</p>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/mac/nano.png" alt="GNU nano asking should it save changes to .bash_profile file" /><br /> <em>GNU nano asking should it save changes to <code>.bash_profile</code> file</em></p>
+<p>If you have done everything right, GNU nano will close and you will see normal Terminal window. We can check if the line is written to <code>.bash_profile</code> file:</p>
+<pre><code>$ cat .bash_profile
+export SELENIUM_SERVER_JAR=/usr/bin/selenium-server-standalone-2.5.0.jar
+</code></pre>
+<p>Let's drive Opera, finally! Open new Terminal window or tab (this is important, already opened windows or tabs would not see <code>SELENIUM_SERVER_JAR</code> variable).</p>
+<pre><code>$ irb
+
+&gt; require &quot;watir-webdriver&quot;
+=&gt; true
+
+&gt; browser = Watir::Browser.new :opera
+#&lt;Watir::Browser:0x1017f6a28 url=&quot;opera:debug&quot; title=&quot;Connect to Debugger&quot;&gt;
+</code></pre>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/mac/webdriver-opera.png" alt="watir-webdriver gem drives Opera 11.51 on Mac 10.6" /><br /> <em>watir-webdriver gem drives Opera 11.51 on Mac 10.6</em></p>
+<p></p>
+</body>
+</html>

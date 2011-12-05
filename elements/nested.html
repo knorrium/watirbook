@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+</head>
+<body>
+<h1 id="nested-elements">Nested Elements</h1>
+<h2 id="simple-nesting">Simple Nesting</h2>
+<p>Sometimes the only way to uniquely identify a link is to specify one or more of its parent elements. How would you click the second link in this example?</p>
+<pre><code>&lt;div id=&quot;one&quot;&gt;
+  &lt;a href=&quot;clicked.htm&quot;&gt;click me&lt;/a&gt;
+&lt;/div&gt;
+&lt;div id=&quot;two&quot;&gt;
+  &lt;a href=&quot;clicked.htm&quot;&gt;click me&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+<p>This will click on the first link, but we want to click on the second one:</p>
+<pre><code>browser.a(:text =&gt; &quot;click me&quot;).click
+</code></pre>
+<p>This will work, but it is really fragile:</p>
+<pre><code>browser.a(:index =&gt; 1).click
+</code></pre>
+<p>If in further development a link (or more) is added between the two links we have so far, the code above will click on whatever link was the second, and that is not what we want.</p>
+<p>Let's make it less fragile.</p>
+<p>We know that the second link is a child element of a <code>div</code> with an <code>id</code> attribute. This is the solution to the problem:</p>
+<pre><code>browser.div(:id =&gt; &quot;two&quot;).link(:text =&gt; &quot;click me&quot;).click
+</code></pre>
+<p>Isn't that just so elegant?! Read it. First there is a browser, inside it there is the div, and inside the div is our link.</p>
+<p>The above solution is not the only one. This will work too:</p>
+<pre><code>browser.div(:id =&gt; &quot;two&quot;).link(:index =&gt; 0).click
+</code></pre>
+<p>This time we told Watir that we want it to click the first link in a specific div.</p>
+<p>There are endless options how to click on an element on a page, and this book will try to teach you all of them.</p>
+<h2 id="more-nesting">More nesting</h2>
+<p>If for some reason you want to be very specific about where the element is located in the page, Watir can handle that too. For example, if you had something like this:</p>
+<pre><code>&lt;div id=&quot;one&quot;&gt;
+  &lt;div id=&quot;two&quot;&gt;
+    &lt;a href=&quot;clicked.htm&quot;&gt;click me&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>You could click the link with:</p>
+<pre><code>browser.div(:id =&gt; &quot;one&quot;).div(:id =&gt; &quot;two&quot;).link(:text =&gt; &quot;click me&quot;).click
+</code></pre>
+<p>So, there is a browser, then a div, another div and the link we are looking for.</p>
+<p>The nesting can go as deep as you like.</p>
+<p></p>
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+</head>
+<body>
+<h1 id="link">Link</h1>
+<p><em>You do not need internet access if you want to follow examples in this chapter.</em></p>
+<p><em>All examples in this chapter are tried on Ruby 1.9.2p290, RubyGems 1.8.11:</em></p>
+<ul>
+<li><em>Mac OS 10.6.8: Firefox 8 and watir-webdriver 0.3.9</em></li>
+<li><em>Microsoft Windows 7 Professional 32-bit, Service Pack 1, Internet Explorer 9 and watir 2.0.4</em></li>
+</ul>
+<p><em>Note: safariwatir does not support a lot of features that are used in this chapter.</em></p>
+<h2 id="html-tag">HTML tag</h2>
+<p>Let's take a closer look at one HTML element. Links are probably the most popular of all HTML elements, so it would be just fair to start there. Usually, you can recognize a link on a web page because it's text is underlined. It's HTML looks like this:</p>
+<pre><code>&lt;a href=&quot;clicked.htm&quot;&gt;click me&lt;/a&gt;
+</code></pre>
+<p>There are two ways of accessing the link, <code>browser.a</code> and <code>browser.link</code>. Both of them do the same thing, but <code>browser.a</code> is not supported in older versions of watir gem and in safariwatir.</p>
+<p>You could access the link in a lot of ways (alphabetically): <code>after?</code>, <code>class</code>, <code>css</code>, <code>href</code>, <code>html</code>, <code>id</code>, <code>index</code>, <code>name</code>, <code>text</code>, <code>title</code>, <code>url</code>, <code>xpath</code> and multiple attributes.</p>
+<p>Examples:</p>
+<pre><code>browser.a(:after? =&gt; browser.a(:text =&gt; &quot;buy&quot;))
+browser.a(:class =&gt; &quot;header&quot;)
+browser.a(:css =&gt; &quot;[id=click-me]&quot;).click
+browser.a(:href =&gt; &quot;clicked.htm&quot;)
+browser.a(:html =&gt; /test/)
+browser.a(:id =&gt; &quot;footer&quot;)
+browser.a(:index =&gt; 1)
+browser.a(:name =&gt; &quot;sidebar)
+browser.a(:text =&gt; &quot;click me&quot;)
+browser.a(:title =&gt; &quot;click me&quot;)
+browser.a(:url =&gt; /watir/)
+browser.a(:xpath =&gt; &quot;//a[@href='clicked.htm']/&quot;).click
+</code></pre>
+<p>and multiple attributes:</p>
+<pre><code>browser.a(:text =&gt; &quot;click me&quot;, index =&gt; 2)
+</code></pre>
+<p>To make sure you could do the exercises from this chapter even without internet access, we will create two HTML files, and create a link from one to the other.</p>
+<p>First, create a simple HTML file with only one link in it. Open your favorite text editor, enter the following line in it and save it as <code>link.htm</code>:</p>
+<pre><code>&lt;a href=&quot;clicked.htm&quot;&gt;click me&lt;/a&gt;
+</code></pre>
+<p>Then create another file, <code>clicked.htm</code> and put it in the same folder as <code>link.htm</code>. You can put anything in <code>clicked.htm</code> file, for example just text <code>Clicked!</code>.</p>
+<p>You can save the files anywhere (make sure both files are in the same folder), but I suggest that you save it to desktop, it will be easy to find there. Open <code>link.htm</code> with Firefox.</p>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/link/text.png" alt="A simple web page with only one link." /><br /> <em>A simple web page with only one link.</em></p>
+<p>Copy URL from the address bar and paste it somewhere safe, in another file, for example. In my case, URL was <code>file:///Users/zeljko/Desktop/link.htm</code>, since I have saved the file to my desktop. We will need the URL to open the same HTML page later with Watir. Close the browser.</p>
+<p>Open command prompt application and open IRB (make sure you are opening command prompt as administrator if you are on Windows):</p>
+<pre><code>$ irb
+&gt;
+</code></pre>
+<p>Let IRB know that you plan to use watir-webdriver or watir gem:</p>
+<pre><code>require &quot;watir-webdriver&quot;
+</code></pre>
+<p>or</p>
+<pre><code>require &quot;watir&quot;
+</code></pre>
+<p>The output should look similar to this:</p>
+<pre><code>&gt; require &quot;watir-webdriver&quot;
+=&gt; true
+</code></pre>
+<p>If you get something like this, do not panic:</p>
+<pre><code>&gt; require &quot;watir-webdriver&quot;
+LoadError: no such file to load -- watir-webdriver
+from (irb):1:in `require'
+from (irb):1
+</code></pre>
+<p>It just means you have to require RubyGems first. In that case, do this:</p>
+<pre><code>&gt; require &quot;rubygems&quot;
+=&gt; true
+
+&gt; require &quot;watir-webdriver&quot;
+=&gt; true
+</code></pre>
+<p>In following code examples, do not type lines that start with <code>=&gt;</code> (<code>=&gt; true</code> for example). That represents value that Ruby returned. You can ignore those lines, until I say differently.</p>
+<p>Open the browser (the following code will open Firefox if you are using watir-webdriver gem, and Internet Explorer if you are using watir gem):</p>
+<pre><code>browser = Watir::Browser.new
+=&gt; #&lt;Watir::Browser:0x2b6d7f970192e212 url=&quot;about:blank&quot; title=&quot;&quot;&gt;
+</code></pre>
+<p>Go to <code>link.htm</code>:</p>
+<pre><code>browser.goto &quot;file:///Users/zeljko/Desktop/link.htm&quot;
+=&gt; &quot;file:///Users/zeljko/Desktop/link.htm&quot;
+</code></pre>
+<p>We are ready now to play with the link.</p>
+<h2 id="text">Text</h2>
+<p>We will start with accessing the link via <code>text</code>, since it is the most common way of accessing links. Our link looks like this:</p>
+<pre><code>&lt;a href=&quot;clicked.htm&quot;&gt;click me&lt;/a&gt;
+</code></pre>
+<p>There is two ways to access the link, using the exact <code>text</code>, and only part of the <code>text</code>.</p>
+<h3 id="text-and-string">Text and String</h3>
+<p>Since we know the exact <code>text</code> of the link, we can click it using string. But before we click the link, let's flash it, just to make sure we are interacting with the right link:</p>
+<pre><code>browser.a(:text =&gt; &quot;click me&quot;).flash
+=&gt; 10
+</code></pre>
+<p>Let's finally click the link:</p>
+<pre><code>browser.a(:text =&gt; &quot;click me&quot;).click
+=&gt; []
+</code></pre>
+<p><code>clicked.htm</code> file should open. Tell the browser to go back to <code>link.htm</code>, we have more exercises to finish there:</p>
+<pre><code>browser.back
+=&gt; &quot;&quot;
+</code></pre>
+<p>Browser should go back to <code>link.htm</code>.</p>
+<h3 id="text-and-regular-expression">Text and Regular expression</h3>
+<p>If you know only a portion of a string, you can use regular expressions. For now, think of regular expressions as a string with a strange syntax. It looks like this: <code>/click/</code>. Please notice the slashes instead of quotes.</p>
+<p>When would you use regular expressions? For example, you want to click on a discussion on a forum by its title, but the title changes form <em>On Dogs (1)</em> to <em>On Dogs (2)</em> after the first reply is posted.</p>
+<p>You could not use <code>&quot;On Dogs&quot;</code> to locate the link, because link text is <em>On Dogs (1)</em> and Watir will complain that it could not find it.</p>
+<p>You could use <code>&quot;On Dogs (1)&quot;</code> to locate the link the first time, but when link text changes to <em>On Dogs (2)</em>, Watir will no longer be able to find the link.</p>
+<p>In that case, you could tell Watir: <em>Well, I know just one part of the string.</em> and it will happily look at all strings until it finds the one that matches the portion you have provided.</p>
+<p>In our example, we will use <code>/click/</code>. First, we will flash the link, and then click it. In this example we do not care if there is any text before or after <code>click</code>.</p>
+<pre><code>&gt; browser.a(:text =&gt; /click/).flash
+=&gt; 10
+
+&gt; browser.a(:text =&gt; /click/).click
+=&gt; []
+</code></pre>
+<p>Of course, tell the browser to go back to <code>link.htm</code> with <code>browser.back</code>. From now on, each time <code>clicked.htm</code> opens, tell the browser to go back to <code>link.htm</code>.</p>
+<pre><code>browser.back
+=&gt; &quot;&quot;
+</code></pre>
+<h2 id="href">Href</h2>
+<p>For this example, let's look only at the link's <code>href</code> attribute.</p>
+<pre><code>&lt;a href=&quot;clicked.htm&quot;&gt;click me&lt;/a&gt;
+</code></pre>
+<h3 id="href-and-string">Href and String</h3>
+<p>If you know the full value of link's <code>href</code> attribute, you could use string to click the link. Of course, flash the link first, to see if everything works, then click it.</p>
+<pre><code>browser.a(:href =&gt; &quot;clicked.htm&quot;).flash
+=&gt; 10
+</code></pre>
+<p>The above code will not work in watir gem, but this one will:</p>
+<pre><code>browser.a(:href =&gt; &quot;file:///Users/zeljko/Desktop/clicked.htm&quot;).flash
+=&gt; nil
+</code></pre>
+<p>Click it with</p>
+<pre><code>browser.a(:href =&gt; &quot;clicked.htm&quot;).click
+=&gt; []
+</code></pre>
+<p>or</p>
+<pre><code>browser.a(:href =&gt; &quot;file:///Users/zeljko/Desktop/clicked.htm&quot;).click
+=&gt; 0.078119
+</code></pre>
+<p>Did you remember to tell tell the browser to go back to <code>link.htm</code> with <code>browser.back</code>?</p>
+<pre><code>browser.back
+=&gt; &quot;&quot;
+</code></pre>
+<h3 id="href-and-regular-expression">Href and Regular Expression</h3>
+<p>If you know only a portion of <code>href</code> attribute, you will still use <code>href</code> to locate the link, but this time with a regular expression instead of a string. The usual story: flash, click, back to <code>link.htm</code>.</p>
+<pre><code>browser.a(:href =&gt; /clicked/).flash
+=&gt; 10
+
+browser.a(:href =&gt; /clicked/).click
+=&gt; []
+
+browser.back
+=&gt; &quot;&quot;
+</code></pre>
+<h2 id="url">URL</h2>
+<p><em>Note: watir-webdriver does not support accessing page elements via <code>url</code>.</em></p>
+<p><code>url</code> is alias for <code>href</code>. So, everything I said about <code>href</code> is true for <code>url</code> also. Well, not everything. If you try any of the following with watir-webdriver:</p>
+<pre><code>browser.a(:url =&gt; &quot;clicked.htm&quot;).click
+browser.a(:url =&gt; /clicked/).click
+</code></pre>
+<p>you would get this error message:</p>
+<pre><code>Watir::Exception::MissingWayOfFindingObjectException:
+invalid attribute: :url
+...
+</code></pre>
+<p>Watir-webdriver wants to tell you that it does not support accessing links via <code>url</code> attribute. Other gems support it. Since it is just an alias for <code>href</code>, I would recommend that you use <code>href</code> everywhere.</p>
+<h2 id="id">ID</h2>
+<p>According to the HTML specification, almost all HTML elements can have an <code>id</code>, and each <code>id</code> should be unique on the page. Uniqueness makes <code>id</code> very convenient for us. All other element attributes can appear more than once on the page and Watir will locate only the first element with the specified attribute, and maybe you want the second or the third one. (There is a workaround for that problem, keep on reading.)</p>
+<p>Open <code>link.htm</code> in your favorite text editor and change the text to this, and save the file:</p>
+<pre><code>&lt;a href=&quot;clicked.htm&quot; id=&quot;click-me&quot;&gt;click me&lt;/a&gt;
+</code></pre>
+<p>Refresh the page in the browser to make sure the latest version of <code>link.htm</code> is loaded:</p>
+<pre><code>browser.refresh
+=&gt; []
+</code></pre>
+<h3 id="id-and-string">ID and String</h3>
+<p>If you know the entire id:</p>
+<pre><code>browser.a(:id =&gt; &quot;click-me&quot;).flash
+=&gt; 10
+
+browser.a(:id =&gt; &quot;click-me&quot;).click
+=&gt; []
+
+browser.back
+=&gt; &quot;&quot;
+</code></pre>
+<h3 id="id-and-regular-expression">ID and Regular Expression</h3>
+<p>Sometimes <code>ids</code> on a page are automatically generated by the framework developers use, so <code>ids</code> are different every time a page is opened. Usually the portion of <code>id</code> stays the same. For example, it changes from <code>user007</code> to <code>user42</code> to <code>user123</code>. It is obvious that <code>user</code> part of the <code>id</code> is the same every time, so you can use that.</p>
+<p>If our example, we will use <code>/click/</code>.</p>
+<pre><code>browser.a(:id =&gt; /click/).flash
+=&gt; 10
+
+browser.a(:id =&gt; /click/).click
+=&gt; []
+
+browser.back
+=&gt; &quot;&quot;
+</code></pre>
+<h2 id="name">Name</h2>
+<p>Another attribute that almost all HTML elements can have is <code>name</code>. It is not supposed to be unique on the page. It is very common that elements that are somehow related on the page have the same <code>name</code>. Change <code>link.htm</code> to this, and reload the page in the browser:</p>
+<pre><code>&lt;a href=&quot;clicked.htm&quot; name=&quot;click-me&quot;&gt;click me&lt;/a&gt;
+
+browser.refresh
+=&gt; []
+</code></pre>
+<h3 id="name-and-string">Name and String</h3>
+<p>If you know the entire <code>name</code>:</p>
+<pre><code>browser.a(:name =&gt; &quot;click-me&quot;).flash
+=&gt; 10
+
+browser.a(:name =&gt; &quot;click-me&quot;).click
+=&gt; []
+
+browser.back
+=&gt; &quot;&quot;
+</code></pre>
+<h3 id="name-and-regular-expression">Name and Regular expression</h3>
+<p>If you know the portion of <code>name</code>:</p>
+<pre><code>browser.a(:name =&gt; /click/).flash
+=&gt; 10
+
+browser.a(:name =&gt; /click/).click
+=&gt; []
+
+browser.back
+=&gt; &quot;&quot;
+</code></pre>
+<h2 id="class">Class</h2>
+<p>It is also very common for an HTML element to have a <code>class</code> attribute. Change <code>link.htm</code> to this, and reload the page in the browser:</p>
+<pre><code>&lt;a href=&quot;clicked.htm&quot; class=&quot;click-me&quot;&gt;click me&lt;/a&gt;
+
+browser.refresh
+=&gt; []
+</code></pre>
+<h3 id="class-and-string">Class and String</h3>
+<p>If you know the entire <code>class</code>:</p>
+<pre><code>browser.a(:class =&gt; &quot;click-me&quot;).flash
+=&gt; 10
+
+browser.a(:class =&gt; &quot;click-me&quot;).click
+=&gt; []
+
+browser.back
+=&gt; &quot;&quot;
+</code></pre>
+<h3 id="class-and-regular-expression">Class and Regular Expression</h3>
+<p>If you know the portion of <code>class</code>:</p>
+<pre><code>browser.a(:class =&gt; /click/).flash
+=&gt; 10
+
+browser.a(:class =&gt; /click/).click
+=&gt; []
+
+browser.back
+=&gt; &quot;&quot;
+</code></pre>
+<h2 id="title">Title</h2>
+<p>It is also very common for an HTML element to have a <code>title</code> attribute. Change <code>link.htm</code> to this, save the file and reload the page in the browser:</p>
+<pre><code>&lt;a href=&quot;clicked.htm&quot; title=&quot;click me&quot;&gt;click me&lt;/a&gt;
+
+browser.refresh
+=&gt; []
+</code></pre>
+<h3 id="title-and-string">Title and String</h3>
+<p>If you know the entire <code>title</code>:</p>
+<pre><code>browser.a(:class =&gt; &quot;click me&quot;).flash
+=&gt; 10
+
+browser.a(:class =&gt; &quot;click me&quot;).click
+=&gt; []
+
+browser.back
+=&gt; &quot;&quot;
+</code></pre>
+<h3 id="title-and-regular-expression">Title and Regular Expression</h3>
+<p>If you know the portion of <code>title</code>:</p>
+<pre><code>browser.a(:class =&gt; /click/).flash
+=&gt; 10
+
+browser.a(:class =&gt; /click/).click
+=&gt; []
+
+browser.back
+=&gt; &quot;&quot;
+</code></pre>
+<h2 id="index">Index</h2>
+<h3 id="explicit-index">Explicit Index</h3>
+<p><em>Note: watir and watir-webdriver use zero-based indexing, safariwatir uses one-based indexing.</em></p>
+<p>If the link does not have any attributes that would differentiate it from the other links on the page, but you know the link's position on the page, you could use it's <code>index</code>. In this example, it is the first link.</p>
+<pre><code>browser.a(:index =&gt; 0).flash
+=&gt; 10
+
+browser.a(:index =&gt; 0).click
+=&gt; []
+
+browser.back
+=&gt; &quot;&quot;
+</code></pre>
+<p>Do you see anything strange in the above code? Take a look. I will wait.</p>
+<p>Maybe you have noticed that this is the first time we did not use a string (double quotes around the text, remember?) or a regular expression (slashes around the text). We have used just the number one. Such numbers are called integers. Watir uses integers only with <code>index</code>.</p>
+<p>Please note that watir and watir-webdriver gems counts from 0 (0, 1, 2...). That is called zero-based indexing. Safariwatir counts from 1 (1, 2, 3...). That is called one-based indexing. (Watir gem used one-based indexing until versinon 2.0.) It is usual in programming that the first element is the number zero (hence zero-based indexing).</p>
+<h3 id="implicit-index">Implicit Index</h3>
+<p>This will do the same thing.</p>
+<pre><code>browser.a.flash
+=&gt; 10
+
+browser.a.click
+=&gt; []
+
+browser.back
+=&gt; &quot;&quot;
+</code></pre>
+<p>So, if you do not provide any arguments to <code>link</code> method, it will just click the first link it finds. It is very useful.</p>
+<p>It is time for and example. If you know that the link is the first (or even the only) link inside a specific div:</p>
+<pre><code>&lt;div id=&quot;42&quot;&gt;
+  &lt;a href=&quot;clicked.htm&quot;&gt;click me&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+<p>Save the above HTML as <code>link.htm</code>, and reload the page in the browser:</p>
+<pre><code>browser.refresh
+=&gt; []
+</code></pre>
+<p>Then try this:</p>
+<pre><code>browser.div(:id =&gt; &quot;42&quot;).link.flash
+=&gt; 10
+
+browser.div(:id =&gt; &quot;42&quot;).link.click
+=&gt; []
+
+browser.back
+=&gt; &quot;&quot;
+</code></pre>
+<h2 id="after">After</h2>
+<p><em>Note: watir-webdriver does not support accessing page elements via <code>after</code>.</em></p>
+<p>Sometimes the only way to identify the element is to say that it should be after another element. Take a look at this example:</p>
+<pre><code>&lt;a href=&quot;clicked.htm&quot;&gt;click me&lt;/a&gt;
+&lt;a href=&quot;clicked.htm&quot; id=&quot;click-me&quot;&gt;click me&lt;/a&gt;
+&lt;a href=&quot;clicked.htm&quot;&gt;click me&lt;/a&gt;
+</code></pre>
+<p>Save the above HTML as <code>link.htm</code>, and reload the page in the browser:</p>
+<pre><code>browser.refresh
+=&gt; []
+</code></pre>
+<p>This will flash the first link, but we want to flash the third one:</p>
+<pre><code>browser.a(:href =&gt; /click/).flash
+</code></pre>
+<p>One of the ways you could do it is, but looks like watir-webdriver does not support <code>after</code>:</p>
+<pre><code>browser.a(:after? =&gt; browser.a(:id =&gt; &quot;click-me&quot;)).flash
+TypeError: expected one of [String, Regexp],
+got #&lt;Watir::Anchor:0x3308eea0e6878cb6 located=false
+selector={:id=&gt;&quot;click-me&quot;, :tag_name=&gt;&quot;a&quot;}&gt;:Watir::Anchor
+...
+</code></pre>
+<p>We told Watir that we want to click a link after a div that has <code>id</code> attribute set to <code>click-me</code>. I rarely use it, but there are times when it is really handy.</p>
+<p>Do you see something strange in the above code? This is the first time we have used a page element as the second parameter (instead of string, regular expression or integer).</p>
+<h2 id="html">HTML</h2>
+<p><em>Note: watir-webdriver does not support accessing page elements via <code>html</code>.</em></p>
+<p>If the link you want to access does not have any usual attributes that could uniquely identify it, Watir can handle that too. For example, you need to click the second link:</p>
+<pre><code>&lt;a href=&quot;clicked.htm&quot; onclick=&quot;new Ajax.Request('007')&quot;&gt;click me&lt;/a&gt;
+&lt;a href=&quot;clicked.htm&quot; onclick=&quot;new Ajax.Request('42')&quot;&gt;click me&lt;/a&gt;
+</code></pre>
+<p>One of the really elegant ways to do it is by using <code>html</code>:</p>
+<pre><code>browser.a(:html =&gt; /007/).click
+</code></pre>
+<p>In above example, we have used a regular expression as the second parameter, but I am sure you have already gotten used to them. I am also sure you are already convinced that regular expressions are very useful.</p>
+<h2 id="css">CSS</h2>
+<p><em>Note: watir-webdriver does not support accessing page elements via <code>css</code>.</em></p>
+<p>CSS selectors are a pretty new addition to Watir, but a powerful one.</p>
+<p>For example, if you have a link:</p>
+<pre><code>&lt;a href=&quot;clicked.htm&quot; id=&quot;click-me&quot;&gt;click me&lt;/a&gt;
+</code></pre>
+<p>you could click it with</p>
+<pre><code>browser.a(:css =&gt; &quot;a&quot;).flash
+</code></pre>
+<p>or, if you prefer to be more explicit:</p>
+<pre><code>browser.a(:css =&gt; &quot;[id=click-me]&quot;).click
+</code></pre>
+<p>This is just one example. There will be entire chapter on CSS selectors.</p>
+<h2 id="xpath">XPath</h2>
+<p>XPath was not in Watir from the beginning. It was added by Angrez Singh. He also created Watir's Firefox driver. Aidy Lewis moved Watir's XPath implementation from REXML to Nokogiri, and now it is faster. XPath is really powerful. Most times you can just use <code>html</code>, but if it does not solve the problem, try XPath.</p>
+<h3 id="xpath-1">XPath</h3>
+<p>If you have a link:</p>
+<pre><code>&lt;a href=&quot;clicked.htm&quot; id=&quot;click-me&quot;&gt;click me&lt;/a&gt;
+</code></pre>
+<p>You could click it with:</p>
+<pre><code>browser.a(:xpath =&gt; &quot;//a&quot;).click
+</code></pre>
+<p>Or, if you would like to be more explicit:</p>
+<pre><code>browser.a(:xpath =&gt; &quot;//a[@id='click-me']&quot;).click
+</code></pre>
+<h3 id="element_by_xpath">Element_by_xpath</h3>
+<p><em>Note: watir gem does not support <code>flash</code> with <code>element_by_xpath</code>.</em></p>
+<p>Another way, especially useful if the element you are trying to access is not supported by Watir:</p>
+<pre><code>browser.element_by_xpath(&quot;//a&quot;).click
+</code></pre>
+<p>Or, the more explicit way:</p>
+<pre><code>browser.element_by_xpath(&quot;//a[@id='click-me']&quot;).click
+</code></pre>
+<h3 id="frames">Frames</h3>
+<p><em>Note: note tested.</em></p>
+<p>At the moment, you can use XPath to access elements located in a frame, but you can not use XPath to access the frame itself. In another words, this would work:</p>
+<pre><code>browser.frame(:name =&gt; &quot;one&quot;).link(:xpath =&gt; &quot;//a[@href='clicked.htm']/&quot;).click
+</code></pre>
+<p>but this would not:</p>
+<pre><code>browser.frame(:xpath =&gt; &quot;//frame[@name='one']/&quot;)
+</code></pre>
+<p>There will be entire chapter on XPath, so I will not go into a lot of detail here.</p>
+<h2 id="multiple-attributes">Multiple Attributes</h2>
+<p><em>Note: watir and watir-webdriver use zero-based indexing, safariwatir uses one-based indexing.</em></p>
+<p>Accessing an element using multiple attributes was not in Watir from the start. This is a killer feature, as you will see. For example, if you have two completely identical links on the same page:</p>
+<pre><code>  &lt;a href=&quot;clicked.htm&quot;&gt;click me&lt;/a&gt;
+  &lt;a href=&quot;clicked.htm&quot;&gt;click me&lt;/a&gt;
+</code></pre>
+<p>and you want to click the second one, you could do it like this:</p>
+<pre><code>browser.a(:text =&gt; &quot;click me&quot;, :index =&gt; 1).click
+</code></pre>
+<p>This is just one example. There will be entire chapter on multiple attributes.</p>
+<h2 id="collection">Collection</h2>
+<p>You can even do stuff with all elements of a particular kind on a page. For example, if you have a page that looks like this:</p>
+<pre><code>&lt;a href=&quot;clicked.htm&quot;&gt;click me&lt;/a&gt;
+&lt;a href=&quot;clicked.htm&quot;&gt;click me&lt;/a&gt;
+</code></pre>
+<p>and you would want to display text of all links from the page, this will do it:</p>
+<pre><code>browser.as.each do |a|
+  puts a.text
+end
+</code></pre>
+<p>The output should look like this:</p>
+<pre><code>click me
+click me
+</code></pre>
+<p>This is just one example. There will be entire chapter on collections.</p>
+<p></p>
+</body>
+</html>

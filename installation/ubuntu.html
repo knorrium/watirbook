@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+</head>
+<body>
+<h2 id="ubuntu-linux-11.04">Ubuntu Linux 11.04</h2>
+<p><em>You will need internet access if you want to follow examples in this chapter.</em></p>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/ubuntu/desktop.png" alt="Ubuntu Linux 11.04 default desktop" /><br /> <em>Ubuntu Linux 11.04 default desktop</em></p>
+<p>Machine is a clean installation of Ubuntu Linux 11.04, fully patched, 512 MB RAM. Firefox 5.0, Chrome 12, Opera 11.50.</p>
+<h3 id="ruby">Ruby</h3>
+<p>Let's see if Ubuntu comes with Ruby installed. Open Terminal (<em>Applications &gt; Accessories &gt; Terminal</em>) and type <code>ruby -v</code>:</p>
+<pre><code>$ ruby -v
+The program 'ruby' is currently not installed. You can install it
+by typing:
+sudo apt-get install ruby
+</code></pre>
+<p>Install it with <code>sudo apt-get install ruby</code>:</p>
+<pre><code>$ sudo apt-get install ruby
+(...)
+Setting up libruby1.8 (1.8.7.302-2) ...
+Setting up ruby1.8 (1.8.7.302-2) ...
+Setting up ruby (4.5) ...
+(...)
+</code></pre>
+<p>Check the version with <code>ruby -v</code>:</p>
+<pre><code>$ ruby -v
+ruby 1.8.7 (2010-08-16 patchlevel 302) [i686-linux]
+</code></pre>
+<p>Ruby 1.8.7 is pretty good, but 1.9.2 would be better. Since we just want to get Watir installed the easiest possible way, we will user Ruby 1.8.7.</p>
+<h3 id="rubygems">RubyGems</h3>
+<p>Let's see the version of RubyGems we got with Ruby with <code>gem -v</code>:</p>
+<pre><code>$ gem -v
+The program 'gem' is currently not installed. You can install it
+by typing:
+sudo apt-get install rubygems1.8
+</code></pre>
+<p>Looks like we did not get any version installed. We will install RubyGems with <code>apt-get</code>, since that is the easiest way:</p>
+<pre><code>$ sudo apt-get install rubygems1.8
+(...)
+Setting up ruby1.8-dev (1.8.7.302-2) ...
+Setting up rubygems1.8 (1.3.7-3) ...
+</code></pre>
+<p>Ask RubyGems for it's version with <code>gem -v</code>:</p>
+<pre><code>$ gem -v
+1.3.7
+</code></pre>
+<p>RubyGems 1.3.7 is really old (<a href="https://rubygems.org/gems/rubygems-update/versions">May 13, 2010</a>). Let's try to update it the usual way, with <code>gem update --system</code>:</p>
+<pre><code>$ gem update --system
+ERROR:  While executing gem ... (RuntimeError)
+gem update --system is disabled on Debian, because it will
+overwrite the content of the rubygems Debian package, and
+might break your Debian system in subtle ways. The
+Debian-supported way to update rubygems is through apt-get,
+using Debian official repositories. If you really know what
+you are doing, you can still update rubygems by setting the
+REALLY_GEM_UPDATE_SYSTEM environment variable, but please
+remember that this is completely unsupported by Debian.
+</code></pre>
+<p>Since I do not <em>really</em> know what I am doing, I will leave RubyGems at version 1.3.7 and hope everything will work.</p>
+<h3 id="watir-webdriver">watir-webdriver</h3>
+<p>I think that Watir-webdriver gem is the future of Watir. In short, it can drive Firefox, Chrome and Opera.</p>
+<p>Install watir-webdriver gem with <code>sudo gem install watir-webdriver --no-ri --no-rdoc</code>.</p>
+<pre><code>$ sudo gem install watir-webdriver --no-ri --no-rdoc
+(...)
+Successfully installed watir-webdriver-0.2.8
+4 gems installed
+</code></pre>
+<h3 id="firefox-with-watir-webdriver">Firefox with watir-webdriver</h3>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/ubuntu/firefox.png" alt="Firefox on Ubuntu 11.04" /><br /> <em>Firefox on Ubuntu 11.04</em></p>
+<p>Since Firefox is installed by default on Ubuntu, you do not have to install it.</p>
+<p>Let's check if it can drive Firefox:</p>
+<pre><code>$ irb
+
+&gt; require &quot;rubygems&quot;
+=&gt; true
+
+&gt; require &quot;watir-webdriver&quot;
+=&gt; true
+
+&gt; browser = Watir::Browser.new :ff
+=&gt; #&lt;Watir::Browser:0x..fb734a4d8 url=&quot;about:blank&quot; title=&quot;&quot;&gt;
+
+&gt; browser.goto &quot;watir.com&quot;
+=&gt; &quot;http://watir.com/&quot;
+</code></pre>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/ubuntu/webdriver-firefox.png" alt="Watir-webdriver drives Firefox on Ubuntu 11.04" /><br /> <em>Watir-webdriver drives Firefox on Ubuntu 11.04</em></p>
+<p>No problem here, works just fine.</p>
+<h3 id="chrome-with-watir-webdriver">Chrome with watir-webdriver</h3>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/ubuntu/chrome.png" alt="Chrome on Ubuntu 11.04" /><br /> <em>Chrome on Ubuntu 11.04</em></p>
+<p>Now, lets see if it can really drive Chrome too. Ubuntu does not have Chrome installed by default, so you have to install it yourself. Download it from <em><a href="http://www.google.com/chrome">google.com/chrome</a></em>. After installation Chrome will appear at <em>Applications &gt; Internet &gt; Chrome</em>.</p>
+<pre><code>$ irb
+
+&gt; require &quot;rubygems&quot;
+=&gt; true
+
+&gt; require &quot;watir-webdriver&quot;
+=&gt; true
+
+&gt; browser = Watir::Browser.new :chrome
+Selenium::WebDriver::Error::WebDriverError: Unable to find the
+chromedriver executable. Please download the server from
+http://code.google.com/p/chromium/downloads/list and place it
+somewhere on your PATH. More info at
+http://code.google.com/p/selenium/wiki/ChromeDriver.
+(...)
+</code></pre>
+<p>Looks like we have to install something called <em>chromedriver executable</em>. Fortunately, the error message is pretty clear. Download <code>chromedriver_linux32_14.0.836.0.zip</code> (or newer version, the description should be <em>ChromeDriver server for linux32</em>) from <em>http://code.google.com/p/chromium/downloads/list</em> and unzip it (mouse right click and then <em>Extract Here</em>, for example). You will get a file named <code>chromedriver</code>. Put it <em>somewhere on your <code>PATH</code></em>, as the error message said.</p>
+<p>The easiest way to do it on Ubuntu is to create a folder called <code>bin</code> in your home folder (<code>/home/zeljko/bin</code> in my case). You have to reboot (or at least log out and then log in, but I have not checked that) and by some magic (provided by <code>/home/zeljko/.profile</code> file in my case) <code>/home/zeljko/bin</code> folder will appear in your <code>PATH</code>:</p>
+<pre><code>$ echo $PATH
+/home/zeljko/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:
+/sbin:/bin:/usr/games
+</code></pre>
+<p>Let's drive Chrome, finally:</p>
+<pre><code>$ irb
+
+&gt; require &quot;rubygems&quot;
+=&gt; true
+
+&gt; require &quot;watir-webdriver&quot;
+=&gt; true
+
+&gt; browser = Watir::Browser.new :chrome
+=&gt; #&lt;Watir::Browser:0x..fb743b7d4 url=&quot;about:blank&quot; title=&quot;about:blank&quot;&gt;
+
+&gt; browser.goto &quot;watir.com&quot;
+=&gt; &quot;http://watir.com/&quot;
+</code></pre>
+<p>And it really works!</p>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/ubuntu/webdriver-chrome.png" alt="Watir-webdriver drives Chrome on Ubuntu 11.04" /><br /> <em>Watir-webdriver drives Chrome on Ubuntu 11.04</em></p>
+<h3 id="java">Java</h3>
+<p>To drive Opera, you will have to install Java first. Let's check if Java is already installed with <code>java -version</code>:</p>
+<pre><code>$ java
+The program 'java' can be found in the following packages:
+ * gcj-4.4-jre-headless
+ * gcj-4.5-jre-headless
+ * openjdk-6-jre-headless
+Try: sudo apt-get install &lt;selected package&gt;
+</code></pre>
+<p>Looks like we will have to install Java. Install it with <code>sudo apt-get install openjdk-6-jre-headless</code>:</p>
+<pre><code>$ sudo apt-get install openjdk-6-jre-headless
+(...)
+Setting up openjdk-6-jre-lib (6b22-1.10.2-0ubuntu1~11.04.1) ...
+Setting up icedtea-6-jre-cacao (6b22-1.10.2-0ubuntu1~11.04.1) ...
+Setting up icedtea-6-jre-jamvm (6b22-1.10.2-0ubuntu1~11.04.1) ...
+Setting up ca-certificates-java (20100412) ...
+creating /etc/ssl/certs/java/cacerts...
+done.
+</code></pre>
+<p>Let's check if Java is really installed with <code>java -version</code>:</p>
+<pre><code>$ java -version
+java version &quot;1.6.0_22&quot;
+OpenJDK Runtime Environment (IcedTea6 1.10.2)
+(6b22-1.10.2-0ubuntu1~11.04.1)
+OpenJDK Client VM (build 20.0-b11, mixed mode, sharing)
+</code></pre>
+<p>Looks good to me!</p>
+<h3 id="opera-with-watir-webdriver">Opera with watir-webdriver</h3>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/ubuntu/opera.png" alt="Opera on Ubuntu 11.04" /><br /> <em>Opera on Ubuntu 11.04</em></p>
+<p>To drive <a href="http://www.opera.com/">Opera</a> make sure you have it installed.</p>
+<p>Let's see how it drives Opera. Open our old friend, IRB:</p>
+<pre><code>$ irb
+
+&gt; require &quot;rubygems&quot;
+=&gt; true
+
+&gt; require &quot;watir-webdriver&quot;
+=&gt; true
+
+&gt; browser = Watir::Browser.new :opera
+Selenium::WebDriver::Error::WebDriverError: Unable to find the
+Selenium server jar. Please download the standalone server from
+http://code.google.com/p/selenium/downloads/list and set the
+SELENIUM_SERVER_JAR environmental variable to its location.
+More info at http://code.google.com/p/selenium/wiki/OperaDriver.
+(...)
+</code></pre>
+<p>Error message similar to the one when we first tried to open Chrome. The solution is similar too. We have to download a file, put it somewhere and point a variable to it. Do not worry, it sounds more complicated than it really is. Fortunately again, the error message says it all. Go to <em>http://code.google.com/p/selenium/downloads/list</em> and download <code>selenium-server-standalone-2.5.0.jar</code> (or newer version, the description should be <em>Use this if you want to use the Selenium RC or Remote WebDriver or use Grid 2 without needing any additional dependencies</em>). Since I have put <code>chromedriver</code> file in <code>/home/zeljko/bin</code>, I will put this file there too.</p>
+<p>The last step is setting <code>SELENIUM_SERVER_JAR</code> environmental variable. If you just got lost, I have step by step guide how to do it. Open Nautilus and go to your home folder: <em>Places &gt; Home Folder</em>. You want to edit <code>.bashrc</code> file, but by default files that have names starting with dot are not displayed. To see the file go to <em>View &gt; Show Hidden Files</em>. Doubleclick <code>.bashrc</code> file (it will open the file in <em>gedit</em> editor). Add this line to the file:</p>
+<pre><code>export SELENIUM_SERVER_JAR=~/bin/selenium-server-standalone-2.5.0.jar
+</code></pre>
+<p>Save the file and close all Terminal windows. Open Terminal again. To check if the variable is set, try <code>printenv | grep SELENIUM</code>:</p>
+<pre><code>$ printenv | grep SELENIUM
+SELENIUM_SERVER_JAR=/home/zeljko/bin/selenium-server-standalone-2.5.0.jar
+</code></pre>
+<p>Looks good to me! After all this work, enjoy driving Opera:</p>
+<pre><code>$ irb
+
+&gt; require &quot;rubygems&quot;
+=&gt; true
+
+&gt; require &quot;watir-webdriver&quot;
+=&gt; true
+
+&gt; browser = Watir::Browser.new :opera
+=&gt; #&lt;Watir::Browser:0x..fb72fd854 url=&quot;http://watir.com/&quot; title=&quot;Watir&quot;&gt;
+
+&gt; browser.goto &quot;watir.com&quot;
+=&gt; &quot;http://watir.com/&quot;
+</code></pre>
+<p><img src="https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/ubuntu/webdriver-opera.png" alt="Watir-webdriver drives Opera on Ubuntu 11.04" /><br /> <em>Watir-webdriver drives Opera on Ubuntu 11.04</em></p>
+<p></p>
+</body>
+</html>

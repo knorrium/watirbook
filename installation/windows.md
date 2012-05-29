@@ -30,7 +30,7 @@ You probably do not have Ruby installed. To make sure, open command prompt and t
 
 If you get the same thing as I did, you do not have Ruby installed.
 
-Download the latest Ruby 1.9. from *[rubyinstaller.org/downloads](http://rubyinstaller.org/downloads)*. At the moment it is *Ruby 1.9.3-p0*. Execute the file.
+Download the latest Ruby 1.9. from *[rubyinstaller.org/downloads](http://rubyinstaller.org/downloads)*. At the moment it is *Ruby 1.9.3-p194*. Execute the file.
 
 ![Ruby Installation](https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/windows/ruby.png)\
 
@@ -41,7 +41,7 @@ You can leave all settings at default values, except at the *Installation Destin
 Let's check if Ruby is installed. You will have to open another command prompt, because the one you have opened does not see Ruby.
 
     >ruby -v
-    ruby 1.9.3p0 (2011-10-30) [i386-mingw32]
+    ruby 1.9.3p194 (2012-04-20) [i386-mingw32]
 
 Congratulations! You now have the latest and greatest Ruby, 1.9.3!
 
@@ -54,7 +54,7 @@ Congratulations! You now have the latest and greatest Ruby, 1.9.3!
 Software written in Ruby is usually distributed as RubyGems (colloquial name is *gem*), Ruby package manager. Sometimes Ruby installations do not have the latest versions of RubyGems, so we will first update it. RubyGems is also a gem, (a bit recursive, right?) and we get it's version with `gem -v`.
 
     >gem -v
-    1.8.11
+    1.8.23
 
 You should update it with `gem update --system`:
 
@@ -65,7 +65,7 @@ You should update it with `gem update --system`:
 Ask RubyGems again for it's version, just to make sure:
 
     >gem -v
-    1.8.12
+    1.8.24
 
 
 
@@ -83,7 +83,7 @@ Watir and watir-webdriver gems needs `ffi` gem, and it needs RubyInstaller Devel
     from 'http://rubyinstaller.org/downloads' and follow the instructions
     at 'http://github.com/oneclick/rubyinstaller/wiki/Development-Kit'
 
-The solution is easy. Go to http://rubyinstaller.org/downloads and download the latest version of DevKit. At the moment it is DevKit-tdm-32-4.5.2-20110712-1620-sfx.exe. Execute the file. It tried to install in the folder where the file was located, in my case it was `C:\Documents and Settings\zeljko\Desktop\`. The documentation says spaces in path could cause trouble, as is often the case. Install it to `C:\devkit`. It will actually just extract itself there and DevKit window will disappear. There will be no *Installation OK* popup.
+The solution is easy. Go to http://rubyinstaller.org/downloads and download the latest version of DevKit. At the moment it is DevKit-tdm-32-4.5.2-20111229-1559-sfx. Execute the file. It tried to install in the folder where the file was located, in my case it was `C:\Documents and Settings\zeljko\Desktop\`. The documentation says spaces in path could cause trouble, as is often the case. Install it to `C:\devkit`. It will actually just extract itself there and DevKit window will disappear. There will be no *Installation OK* popup.
 
 ![Where to extract DevKit](https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/windows/devkit-folder.png)\
 
@@ -103,7 +103,7 @@ Go to `C:\devkit` in command prompt and type `ruby dk.rb init`:
 And the final step is `ruby dk.rb install`:
 
     C:\devkit>ruby dk.rb install
-    [INFO] Installing 'C:/Ruby193/lib/ruby/site_ruby/1.9.1/rubygems/defaults/operating_system.rb'
+    [INFO] Updating convenience notice gem override for 'C:/Ruby193'
     [INFO] Installing 'C:/Ruby193/lib/ruby/site_ruby/devkit.rb'
 
 That is it, you are ready to install watir and watir-webdriver gems.
@@ -120,7 +120,7 @@ Watir gem (the whole Watir project got named after this gem) can drive Internet 
 
     >gem install watir --no-ri --no-rdoc
     (...)
-    Successfully installed watir-2.0.4
+    Successfully installed watir-3.0.0
     (...)
 
 Let's drive Internet Explorer with it:
@@ -153,7 +153,7 @@ Install it with `gem install watir-webdriver --no-ri --no-rdoc`:
 
     >gem install watir-webdriver --no-ri --no-rdoc
     (...)
-    Successfully installed watir-webdriver-0.4.1
+    Successfully installed watir-webdriver-0.6.1
     (...)
 
 
@@ -175,7 +175,7 @@ Since Internet Explorer is already installed, we will start with it. Let's see i
     same value (enabled or disabled) for all zones.
     (...)
 
-On 7 and Vista I got `Protected Mode must be set to the same value (enabled or disabled) for all zones` error message (does not appear for Internet Explorer 6 on Windows XP) and Windows Firewall popup appeared letting me know that it has blocked `C:\ruby192\bin\ruby.exe`. So, XP/IE6 users can skip enabling protected mode.
+On 7 and Vista I got `Protected Mode must be set to the same value (enabled or disabled) for all zones` error message (does not appear for Internet Explorer 6 on Windows XP) and Windows Firewall popup appeared letting me know that it has blocked `C:\ruby193\bin\ruby.exe`. So, XP/IE6 users can skip enabling protected mode.
 
 ![Windows Firewall has blocked some features of this program](https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/windows/firewall.png)\
 
@@ -265,9 +265,9 @@ Looks like there is a problem. You have to download `chromedriver_win32_14.0.836
 
     >path
     PATH=C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;
-    C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Ruby192\bin
+    C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Ruby193\bin
 
-Folders are separated with `;`. `C:\Ruby192\bin` looks like a good place, so I will put `chromedriver.exe` there. Let's try again:
+Folders are separated with `;`. `C:\Ruby193\bin` looks like a good place, so I will put `chromedriver.exe` there. Let's try again:
 
     >irb
 
@@ -287,7 +287,7 @@ Folders are separated with `;`. `C:\Ruby192\bin` looks like a good place, so I w
 
 *watir-webdriver gem drives Chrome 12 on Windows 7*
 
-I got Windows Firewall popup again letting me know that it has blocked `C:\ruby192\bin\chromedriver.exe`. Just close it for now, I have no idea what to do with it.
+I got Windows Firewall popup again letting me know that it has blocked `C:\ruby193\bin\chromedriver.exe`. Just close it for now, I have no idea what to do with it.
 
 
 
@@ -304,9 +304,9 @@ To drive Opera, you will have to install Java first. Let's check if Java is alre
 Looks like we will have to install Java. There is big *Free Java Download* button at *http://www.java.com/en/download*. Execute download file and install Java. Let's check if Java is really installed with `java -version`:
 
     >java -version
-    java version "1.6.0_26"
-    Java(TM) SE Runtime Environment (build 1.6.0_26-b03)
-    Java HotSpot(TM) Client VM (build 20.1-b02, mixed mode, sharing)
+    java version "1.7.0_04"
+    Java(TM) SE Runtime Environment (build 1.7.0_04-b22)
+    Java HotSpot(TM) Client VM (build 23.0-b21, mixed mode, sharing)
 
 Looks good to me!
 
@@ -334,7 +334,7 @@ And finally, let's drive Opera. If you do not have it installed, you can get it 
     SELENIUM_SERVER_JAR environmental variable to its location.  More
     info at http://code.google.com/p/selenium/wiki/OperaDriver.
 
-Download `selenium-server-standalone-2.5.0.jar` (or newer version) from *http://code.google.com/p/selenium/downloads/list* and put it in `C:\Ruby192\bin`. Then make `SELENIUM_SERVER_JAR` environmental variable and set it to `C:\Ruby192\bin\selenium-server-standalone-2.5.0.jar`. To create environmental variable, right click *computer* and click `Properties > Advanced system settings > Environmental Variables > User variables > New... > Variable name: SELENIUM_SERVER_JAR > Variable value: C:\Ruby192\bin\selenium-server-standalone-2.5.0.jar > OK > OK > OK`.
+Download `selenium-server-standalone-2.22.0.jar` (or newer version) from *http://code.google.com/p/selenium/downloads/list* and put it in `C:\Ruby193\bin`. Then make `SELENIUM_SERVER_JAR` environmental variable and set it to `C:\Ruby193\bin\selenium-server-standalone-2.22 .0.jar`. To create environmental variable, right click *computer* and click `Properties > Advanced system settings > Environmental Variables > User variables > New... > Variable name: SELENIUM_SERVER_JAR > Variable value: C:\Ruby193\bin\selenium-server-standalone-2.22.0.jar > OK > OK > OK`.
 
 Open new command prompt, the old one will not see `SELENIUM_SERVER_JAR` variable.
 
@@ -347,7 +347,7 @@ Open new command prompt, the old one will not see `SELENIUM_SERVER_JAR` variable
     Selenium::WebDriver::Error::UnhandledError: No response in a timely fashion.
     Build info: version: '2.3.0', revision: '13158', time: '2011-08-01 18:13:39'
     System info: os.name: 'Windows 7', os.arch: 'x86', os.version: '6.1',
-      java.version: '1.6.0_26'
+      java.version: '1.7.0_04'
     Driver info: driver.version: OperaDriver
       (com.opera.core.systems.scope.exceptions.ResponseNotReceivedException)
 
@@ -382,9 +382,9 @@ Finally, let's drive Opera:
     > browser.goto "watir.com"
     => "http://watir.com/"
 
-![watir-webdriver gem drives Opera 11.50 on Windows 7](https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/windows/webdriver-opera.png)\
+![watir-webdriver gem drives Opera 11.64 on Windows 7](https://github.com/zeljkofilipin/watirbook/raw/master/images/installation/windows/webdriver-opera.png)\
 
-*watir-webdriver gem drives Opera 11.50 on Windows 7*
+*watir-webdriver gem drives Opera 11.64 on Windows 7*
 
 
 
@@ -412,7 +412,7 @@ And finally, let's drive Opera. If you do not have it installed, you can get it 
     SELENIUM_SERVER_JAR environmental variable to its location.  More
     info at http://code.google.com/p/selenium/wiki/OperaDriver.
 
-Download `selenium-server-standalone-2.5.0.jar` (or newer version) from *http://code.google.com/p/selenium/downloads/list* and put it in `C:\Ruby192\bin`. Then make `SELENIUM_SERVER_JAR` environmental variable and set it to `C:\Ruby192\bin\selenium-server-standalone-2.5.0.jar`. To create environmental variable right click *My Computer* and then `Properties > Advanced > Environment Variables > User variables > New > Variable name: SELENIUM_SERVER_JAR > Variable value: C:\Ruby192\bin\selenium-server-standalone-2.5.0.jar > OK > OK > OK`
+Download `selenium-server-standalone-2.22.0.jar` (or newer version) from *http://code.google.com/p/selenium/downloads/list* and put it in `C:\Ruby193\bin`. Then make `SELENIUM_SERVER_JAR` environmental variable and set it to `C:\Ruby193\bin\selenium-server-standalone-2.22.0.jar`. To create environmental variable right click *My Computer* and then `Properties > Advanced > Environment Variables > User variables > New > Variable name: SELENIUM_SERVER_JAR > Variable value: C:\Ruby193\bin\selenium-server-standalone-2.22.0.jar > OK > OK > OK`
 
 Open new command prompt, the old one will not see `SELENIUM_SERVER_JAR` variable.
 
@@ -430,7 +430,7 @@ Open new command prompt, the old one will not see `SELENIUM_SERVER_JAR` variable
     this problem
     Build info: version: '2.5.0', revision: '13516', time: '2011-08-23 18:29:57'
     System info: os.name: 'Windows XP', os.arch: 'x86', os.version: '5.1',
-      java.version: '1.6.0_26'
+      java.version: '1.7.0_04'
     Driver info: driver.version: OperaDriver (org.openqa.selenium.WebDriverException)
 
 I got Windows Firewall popup. Since I do not know what to do with it, just close the popup.
